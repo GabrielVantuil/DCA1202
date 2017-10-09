@@ -34,24 +34,16 @@ public:
     // Retorna o numero de casas vazias no tabuleiro
     unsigned num_casas_vazias() const;
     // Determina automaticamente a solucao do tabuleiro (preenche as casas vazias)
-    void resolver(void);
+    int resolver(void);
     inline int get_x(int i, int j){return x[i][j];}
     inline void set_x(int i, int j, int v){x[i][j] = v;}
     // Matriz que contem os valores das casas do tabuleiro
+    void reiniciar(Sudoku2 O);
 private:
     int x[9][9];
 
 };
 
-
-
-// Imprime msg e espera que o usuario digite uma tecla
-void espera_tecla();
-// Desenha as linhas dos tabuleiros direito e esquerdo
-void desenha_moldura(bool inicial=false);
-
-
-
-// Classe que representa uma possivel jogada (coordenadas e valor)
-
+extern Sudoku2 S;
+extern Sudoku2 Origem;
 #endif // SUDOKU2_H
