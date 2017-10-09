@@ -21,11 +21,17 @@ Sudoku::Sudoku(QWidget *parent) :
     ui(new Ui::Sudoku)
 {
     ui->setupUi(this);
-    //ui->tabuleiro->
-    for(int i = 0;i<9;i++)
-        for(int j = 0;j<9;j++)
-            if(S.get_x(i, j)!=0)
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
+    QLabel *prov;
+    for(int i = 0;i<9;i++)for(int j = 0;j<9;j++){
+        /*prov = new QLabel;
+        prov->setStyleSheet("color: black; "
+                            "text-align: center;"
+                            "alignment: center;");
+            prov->setText();*/
+        if(S.get_x(i, j)!=0)
+            ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
+                //ui->tabuleiro->setCellWidget(i,j,);
+    }
 }
 
 Sudoku::~Sudoku()
