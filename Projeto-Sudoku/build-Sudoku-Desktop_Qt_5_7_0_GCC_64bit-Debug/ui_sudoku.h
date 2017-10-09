@@ -20,9 +20,11 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -34,15 +36,15 @@ public:
     QAction *actionReiniciar;
     QAction *actionSair;
     QWidget *centralWidget;
-    QWidget *widget;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout;
+    QTableWidget *tabuleiro;
     QHBoxLayout *horizontalLayout_2;
     QLabel *coords;
     QPushButton *ok_num;
     QSpinBox *SelNum;
-    QTableWidget *tabuleiro;
-    QLabel *Testar_coisas;
-    QPushButton *resolver;
-    QPushButton *Reiniciar;
+    QSpacerItem *horizontalSpacer;
+    QLabel *Iteracoes;
     QMenuBar *menuBar;
     QMenu *menuMenu;
     QStatusBar *statusBar;
@@ -60,42 +62,25 @@ public:
         actionSair->setObjectName(QStringLiteral("actionSair"));
         centralWidget = new QWidget(Sudoku);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(130, 270, 201, 31));
-        horizontalLayout_2 = new QHBoxLayout(widget);
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        coords = new QLabel(widget);
-        coords->setObjectName(QStringLiteral("coords"));
-
-        horizontalLayout_2->addWidget(coords);
-
-        ok_num = new QPushButton(widget);
-        ok_num->setObjectName(QStringLiteral("ok_num"));
-        ok_num->setMaximumSize(QSize(40, 30));
-
-        horizontalLayout_2->addWidget(ok_num);
-
-        SelNum = new QSpinBox(widget);
-        SelNum->setObjectName(QStringLiteral("SelNum"));
-        SelNum->setMaximumSize(QSize(40, 30));
-        SelNum->setButtonSymbols(QAbstractSpinBox::NoButtons);
-        SelNum->setMinimum(0);
-        SelNum->setMaximum(9);
-
-        horizontalLayout_2->addWidget(SelNum);
-
+        verticalLayout = new QVBoxLayout(centralWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         tabuleiro = new QTableWidget(centralWidget);
         if (tabuleiro->columnCount() < 9)
             tabuleiro->setColumnCount(9);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tabuleiro->setHorizontalHeaderItem(0, __qtablewidgetitem);
         if (tabuleiro->rowCount() < 9)
             tabuleiro->setRowCount(9);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        __qtablewidgetitem1->setTextAlignment(Qt::AlignCenter);
+        tabuleiro->setItem(0, 1, __qtablewidgetitem1);
         tabuleiro->setObjectName(QStringLiteral("tabuleiro"));
         tabuleiro->setEnabled(true);
-        tabuleiro->setGeometry(QRect(100, 0, 270, 270));
         tabuleiro->setMinimumSize(QSize(270, 270));
         tabuleiro->setMaximumSize(QSize(270, 270));
         tabuleiro->setFrameShape(QFrame::NoFrame);
@@ -115,22 +100,53 @@ public:
         tabuleiro->horizontalHeader()->setVisible(false);
         tabuleiro->horizontalHeader()->setDefaultSectionSize(30);
         tabuleiro->horizontalHeader()->setHighlightSections(false);
-        tabuleiro->horizontalHeader()->setMinimumSectionSize(50);
+        tabuleiro->horizontalHeader()->setMinimumSectionSize(30);
         tabuleiro->verticalHeader()->setVisible(false);
         tabuleiro->verticalHeader()->setCascadingSectionResizes(false);
         tabuleiro->verticalHeader()->setDefaultSectionSize(30);
         tabuleiro->verticalHeader()->setHighlightSections(false);
-        tabuleiro->verticalHeader()->setMinimumSectionSize(10);
-        Testar_coisas = new QLabel(centralWidget);
-        Testar_coisas->setObjectName(QStringLiteral("Testar_coisas"));
-        Testar_coisas->setGeometry(QRect(420, 160, 51, 16));
-        Testar_coisas->setMaximumSize(QSize(16777215, 30));
-        resolver = new QPushButton(centralWidget);
-        resolver->setObjectName(QStringLiteral("resolver"));
-        resolver->setGeometry(QRect(250, 310, 80, 23));
-        Reiniciar = new QPushButton(centralWidget);
-        Reiniciar->setObjectName(QStringLiteral("Reiniciar"));
-        Reiniciar->setGeometry(QRect(140, 310, 108, 23));
+        tabuleiro->verticalHeader()->setMinimumSectionSize(30);
+
+        horizontalLayout->addWidget(tabuleiro);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        coords = new QLabel(centralWidget);
+        coords->setObjectName(QStringLiteral("coords"));
+
+        horizontalLayout_2->addWidget(coords);
+
+        ok_num = new QPushButton(centralWidget);
+        ok_num->setObjectName(QStringLiteral("ok_num"));
+        ok_num->setMaximumSize(QSize(40, 30));
+
+        horizontalLayout_2->addWidget(ok_num);
+
+        SelNum = new QSpinBox(centralWidget);
+        SelNum->setObjectName(QStringLiteral("SelNum"));
+        SelNum->setMaximumSize(QSize(40, 30));
+        SelNum->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        SelNum->setMinimum(0);
+        SelNum->setMaximum(9);
+
+        horizontalLayout_2->addWidget(SelNum);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer);
+
+        Iteracoes = new QLabel(centralWidget);
+        Iteracoes->setObjectName(QStringLiteral("Iteracoes"));
+
+        horizontalLayout_2->addWidget(Iteracoes);
+
+
+        verticalLayout->addLayout(horizontalLayout_2);
+
         Sudoku->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(Sudoku);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -159,11 +175,14 @@ public:
         actionResolver->setText(QApplication::translate("Sudoku", "Resolver", 0));
         actionReiniciar->setText(QApplication::translate("Sudoku", "Reiniciar", 0));
         actionSair->setText(QApplication::translate("Sudoku", "Sair", 0));
+
+        const bool __sortingEnabled = tabuleiro->isSortingEnabled();
+        tabuleiro->setSortingEnabled(false);
+        tabuleiro->setSortingEnabled(__sortingEnabled);
+
         coords->setText(QApplication::translate("Sudoku", "X: 0 Y: 0", 0));
         ok_num->setText(QApplication::translate("Sudoku", "OK", 0));
-        Testar_coisas->setText(QApplication::translate("Sudoku", "X: 0 Y: 0", 0));
-        resolver->setText(QApplication::translate("Sudoku", "Resolver", 0));
-        Reiniciar->setText(QApplication::translate("Sudoku", "Reiniciar", 0));
+        Iteracoes->setText(QApplication::translate("Sudoku", "TextLabel", 0));
         menuMenu->setTitle(QApplication::translate("Sudoku", "Menu", 0));
     } // retranslateUi
 

@@ -17,13 +17,9 @@ public:
 private slots:
     void on_tabuleiro_cellClicked(int row, int column);
 
-    void on_Reiniciar_clicked();
-
     void on_SelNum_valueChanged(int arg1);
 
     void on_ok_num_clicked();
-
-    void on_resolver_clicked();
 
     void on_actionResolver_triggered();
 

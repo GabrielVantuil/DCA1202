@@ -3,8 +3,8 @@
 #include "console.h"
 #include "sudoku2.h"
 
-Sudoku2 S("sudoku.txt");
-Sudoku2 Origem("sudoku.txt");
+Sudoku2 S("../Sudoku/sudoku.txt");
+Sudoku2 Origem("../Sudoku/sudoku.txt");
 int main(int argc, char *argv[]){
     QApplication a(argc, argv);
     Sudoku w;

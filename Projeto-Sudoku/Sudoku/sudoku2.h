@@ -34,7 +34,7 @@ public:
     // Retorna o numero de casas vazias no tabuleiro
     unsigned num_casas_vazias() const;
     // Determina automaticamente a solucao do tabuleiro (preenche as casas vazias)
-    void resolver(void);
+    int resolver(void);
     inline int get_x(int i, int j){return x[i][j];}
     inline void set_x(int i, int j, int v){x[i][j] = v;}
     // Matriz que contem os valores das casas do tabuleiro
