@@ -15,8 +15,7 @@
 using namespace std;
 
 int cellx=-1, celly=-1;
-Sudoku2 S("sudoku.txt");
-Sudoku2 Origem("sudoku.txt");
+
 Sudoku::Sudoku(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Sudoku)
@@ -25,10 +24,8 @@ Sudoku::Sudoku(QWidget *parent) :
     //ui->tabuleiro->
     for(int i = 0;i<9;i++)
         for(int j = 0;j<9;j++)
-            if(S.get(i, j)!=0)
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get(i, j)));
-
-
+            if(S.get_x(i, j)!=0)
+                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
 }
 
 Sudoku::~Sudoku()
@@ -160,7 +157,6 @@ void Sudoku2::resolver(void)
         S = F.top();
         F.pop();
         if(S.fim_de_jogo()){
-            S.imprimir(false);
             return;
         }
         while(S.x[i][j] != 0){//procura a proxima casa vazia no sudoku
@@ -187,24 +183,28 @@ void Sudoku2::resolver(void)
         //cout << "iteracoes: " << cont << endl;
     }while(!F.top().fim_de_jogo());
     *this = F.top();
-    imprimir(false);
     return;
 }
 
+void Sudoku2::reiniciar(Sudoku2 O){
+for(int i = 0;i<9;i++)
+    for(int j = 0;j<9;j++)
+        S.set_x(i,j,Origem.get_x(i,j));
+}
+
 void Sudoku::on_tabuleiro_cellClicked(int row, int column){
-    /*Jogada X(column,row);
-    if(S.jogada_valida(X))*/
     celly = column;
     cellx = row;
     QString texto;
     texto.append("X: ");
     texto.append(QString::number(celly+1));
-    texto.append("  Y: ");
+    texto.append(" Y: ");
     texto.append(QString::number(cellx+1));
 
     ui->coords->setText(texto);
+
     Jogada X(cellx, celly, ui->SelNum->value());
-    if(S.jogada_valida(X)&&(Origem.get(cellx, celly)==0))
+    if(S.jogada_valida(X)&&(Origem.get_x(cellx, celly)==0))
         ui->ok_num->setEnabled(true);
     else
         ui->ok_num->setEnabled(false);
@@ -213,7 +213,7 @@ void Sudoku::on_tabuleiro_cellClicked(int row, int column){
 
 void Sudoku::on_SelNum_valueChanged(int arg1){
     Jogada X(cellx, celly, arg1);
-    if(S.jogada_valida(X)&&(Origem.get(cellx, celly)==0))
+    if(S.jogada_valida(X)&&(Origem.get_x(cellx, celly)==0))
         ui->ok_num->setEnabled(true);
     else
         ui->ok_num->setEnabled(false);
@@ -224,7 +224,7 @@ void Sudoku::on_ok_num_clicked(){
     Jogada X(cellx, celly, ui->SelNum->value());
     S.fazer_jogada(X);
     if(ui->SelNum->value()!=0)
-        ui->tabuleiro->setItem(cellx, celly,new QTableWidgetItem(QString::number(S.get(cellx, celly))));
+        ui->tabuleiro->setItem(cellx, celly,new QTableWidgetItem(QString::number(S.get_x(cellx, celly))));
     else
         ui->tabuleiro->setItem(cellx, celly,new QTableWidgetItem(QString("")));
 }
@@ -234,15 +234,15 @@ void Sudoku::on_resolver_clicked(){
     S.resolver();
     for(int i = 0;i<9;i++)
         for(int j = 0;j<9;j++)
-            if(S.x[i][j]!=0)
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(cellx, celly))));
+            if(S.get_x(i,j)!=0)
+                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
 }
 void Sudoku::on_Reiniciar_clicked(){
+    S.reiniciar(Origem);
     for(int i = 0;i<9;i++)
         for(int j = 0;j<9;j++){
-            S.get_x(i,j,Origem.get(i,j));
-            if(S.x[i][j]!=0)
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(cellx, celly))));
+            if(S.get_x(i,j)!=0)
+                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
             else
                 ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString("")));
         }

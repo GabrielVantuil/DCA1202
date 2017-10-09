@@ -180,25 +180,6 @@
     <column/>
     <column/>
    </widget>
-   <widget class="QLabel" name="Testar_coisas">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>160</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>30</height>
-     </size>
-    </property>
-    <property name="text">
-     <string>X: 0 Y: 0</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="resolver">
     <property name="geometry">
      <rect>
