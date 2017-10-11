@@ -1,14 +1,13 @@
-#include "sudoku.h"
+#include "mainsudoku.h"
 #include <QApplication>
-#include "console.h"
-#include "sudoku2.h"
+#include "sudoku.h"
 
-Sudoku2 S("../Sudoku/sudoku.txt");
-Sudoku2 Origem("../Sudoku/sudoku.txt");
-int main(int argc, char *argv[]){
+Sudoku S("./sudoku.txt");
+Sudoku Origem("./sudoku.txt");
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
-    Sudoku w;
+    MainSudoku w;
     w.show();
-
     return a.exec();
 }

@@ -1,47 +1,10 @@
-#include "sudoku.h"
-#include "ui_sudoku.h"
-
-#include <QTableWidgetItem>
-#include <QTableWidget>
-#include <QString>
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <stack>
-#include "console.h"
-#include "sudoku2.h"
+#include "sudoku.h"
 
 using namespace std;
-
-int cellx=-1, celly=-1;
-
-Sudoku::Sudoku(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::Sudoku)
-{
-    ui->setupUi(this);
-    QLabel *prov;
-    for(int i = 0;i<9;i++)for(int j = 0;j<9;j++){
-        /*prov = new QLabel;
-        prov->setStyleSheet("color: black; "
-                            "text-align: center;"
-                            "alignment: center;");
-            prov->setText();*/
-        if(S.get_x(i, j)!=0)
-            ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
-                //ui->tabuleiro->setCellWidget(i,j,);
-    }
-}
-
-Sudoku::~Sudoku()
-{
-    delete ui;
-}
-
-
-
-
 
 Jogada::Jogada(int I, int J, int V){
     // Construtor (por default, cria Jogada que termina o jogo)
@@ -66,7 +29,7 @@ bool Jogada::fim_de_jogo() const{
 
 // Cria um tabuleiro com o conteudo do arquivo nome_arq
 // Caso nao consiga ler do arquivo, cria tabuleiro vazip
-Sudoku2::Sudoku2(const char *nome_arq)
+Sudoku::Sudoku(const char *nome_arq)
 {
   for (unsigned i=0; i<9; i++) for (unsigned j=0; j<9; j++)
   {
@@ -93,7 +56,7 @@ Sudoku2::Sudoku2(const char *nome_arq)
 }
 
 // Testa se a jogada J eh possivel para o tabuleiro
-bool Sudoku2::jogada_valida(Jogada J) const{
+bool Sudoku::jogada_valida(Jogada J) const{
   unsigned i,j;
   // Testar a jogada
   if (J.i<0 || J.i>8) return false;
@@ -131,7 +94,7 @@ bool Sudoku2::jogada_valida(Jogada J) const{
 }
 
 // Testa se o tabuleiro estah completo (fim de jogo)
-bool Sudoku2::fim_de_jogo() const{
+bool Sudoku::fim_de_jogo() const{
   for (unsigned i=0; i<9; i++) for (unsigned j=0; j<9; j++)
   {
     if (x[i][j] == 0) return false;
@@ -140,7 +103,7 @@ bool Sudoku2::fim_de_jogo() const{
 }
 
 // Retorna o numero de casas vazias no tabuleiro
-unsigned Sudoku2::num_casas_vazias() const{
+unsigned Sudoku::num_casas_vazias() const{
   unsigned N(0);
   for (unsigned i=0; i<9; i++)
       for (unsigned j=0; j<9; j++)
@@ -150,9 +113,9 @@ unsigned Sudoku2::num_casas_vazias() const{
 }
 
 // Determina automaticamente a solucao do tabuleiro (preenche as casas vazias)
-int Sudoku2::resolver(void){
-  Sudoku2 S;
-  stack<Sudoku2> F;
+int Sudoku::resolver(void){
+  Sudoku S;
+  stack<Sudoku> F;
   F.push(*this);//o primeiro da pilha recebe a origem
   int cont = 0;
   int i = 0, j = 0;
@@ -186,67 +149,33 @@ int Sudoku2::resolver(void){
     return cont;
 }
 
-void Sudoku2::reiniciar(Sudoku2 O){
-for(int i = 0;i<9;i++)
-    for(int j = 0;j<9;j++)
-        S.set_x(i,j,Origem.get_x(i,j));
-}
-
-void Sudoku::on_tabuleiro_cellClicked(int row, int column){
-    celly = column;
-    cellx = row;
-    QString texto;
-    texto.append("X: ");
-    texto.append(QString::number(celly+1));
-    texto.append(" Y: ");
-    texto.append(QString::number(cellx+1));
-
-    ui->coords->setText(texto);
-
-    Jogada X(cellx, celly, ui->SelNum->value());
-    if(S.jogada_valida(X)&&(Origem.get_x(cellx, celly)==0))
-        ui->ok_num->setEnabled(true);
-    else
-        ui->ok_num->setEnabled(false);
-}
-
-
-void Sudoku::on_SelNum_valueChanged(int arg1){
-    Jogada X(cellx, celly, arg1);
-    if(S.jogada_valida(X)&&(Origem.get_x(cellx, celly)==0))
-        ui->ok_num->setEnabled(true);
-    else
-        ui->ok_num->setEnabled(false);
-
-}
-
-void Sudoku::on_ok_num_clicked(){
-    Jogada X(cellx, celly, ui->SelNum->value());
-    S.fazer_jogada(X);
-    if(ui->SelNum->value()!=0)
-        ui->tabuleiro->setItem(cellx, celly,new QTableWidgetItem(QString::number(S.get_x(cellx, celly))));
-    else
-        ui->tabuleiro->setItem(cellx, celly,new QTableWidgetItem(QString("")));
-}
-
-void Sudoku::on_actionResolver_triggered(){
-    //on_actionReiniciar_triggered();
-    QString it;
-    it.append("Iteracoes: ");
-    it.append(QString::number(S.resolver()));
-    ui->Iteracoes->setText(it);
+void Sudoku::reiniciar(){
     for(int i = 0;i<9;i++)
         for(int j = 0;j<9;j++)
-            if(S.get_x(i,j)!=0)
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
+            S.set_x(i,j,Origem.get_x(i,j));
 }
-void Sudoku::on_actionReiniciar_triggered(){
-    S.reiniciar(Origem);
-    for(int i = 0;i<9;i++)
-        for(int j = 0;j<9;j++){
-            if(S.get_x(i,j)!=0)
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString::number(S.get_x(i, j))));
-            else
-                ui->tabuleiro->setItem(i,j,new QTableWidgetItem(QString("")));
-        }
+void Sudoku::changesourceFile(const char *nome_arq){
+    for (unsigned i=0; i<9; i++) for (unsigned j=0; j<9; j++)
+    {
+      x[i][j] = 0;
+    }
+    // Le o tabuleiro inicial de arquivo
+    ifstream arq(nome_arq);
+    if (!arq.is_open()) return;
+
+    string prov;
+    int valor;
+
+    arq >> prov;
+    if (prov != "SUDOKU") return;
+    for (unsigned i=0; i<9; i++) for (unsigned j=0; j<9; j++)  {
+      arq >> valor;
+      if (valor != 0)
+      {
+        Jogada J(i,j,valor);
+        if (jogada_valida(J)) x[i][j] = valor;
+      }
+    }
+    arq.close();
 }
+
