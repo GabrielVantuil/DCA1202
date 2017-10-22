@@ -4,8 +4,8 @@
 
 using namespace std;
 
-int main(void)
-{
+int main(void){
+  /*
   Circuito C;
   string nome;
   int opcao;
@@ -57,4 +57,5 @@ int main(void)
       break;
     }
   } while(opcao != 0);
+  */
 }

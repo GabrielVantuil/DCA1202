@@ -27,15 +27,15 @@ protected:
   bool_3S saida;
 public:
   Porta(unsigned NI=2);
-  Porta(const Porta &);
+  Porta(const Porta &p);
   inline virtual ~Porta() {}
 
   virtual ptr_Porta clone() const = 0;
   inline unsigned getNumInputs() const {return Nin;}
   inline bool_3S getSaida() const {return saida;}
   void setSaida(bool_3S s);
-  int getId_in(unsigned i) const;
-  void setId_in(unsigned i, int N);
+  inline int getId_in(unsigned i) const {return id_in[i];}
+  inline void setId_in(unsigned i, int N){id_in[i]=N;}
 
   virtual void digitar();
   virtual bool ler(istream &I);
