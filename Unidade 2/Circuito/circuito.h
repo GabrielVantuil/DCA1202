@@ -34,8 +34,8 @@ public:
   inline unsigned getNumInputs() const {return Nin;}
   inline bool_3S getSaida() const {return saida;}
   void setSaida(bool_3S s);
-  inline int getId_in(unsigned i) const {return id_in[i];}
-  inline void setId_in(unsigned i, int N){id_in[i]=N;}
+  int getId_in(unsigned i) const;
+  void setId_in(unsigned i, int N);
 
   virtual void digitar();
   virtual bool ler(istream &I);
@@ -152,7 +152,7 @@ public:
   // Entrada dos dados de um circuito via teclado
   void digitar();
   // Entrada dos dados de um circuito via arquivo
-  void ler(const char *);
+  void ler(const char *arq);
   // Saida dos dados de um circuito (em tela ou arquivo, mesma funcao)
   ostream &imprimir(ostream &O=cout) const;
   // Salvar circuito em arquivo
