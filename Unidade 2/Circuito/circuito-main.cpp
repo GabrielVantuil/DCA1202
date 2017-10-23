@@ -5,6 +5,9 @@
 using namespace std;
 
 int main(void){
+  Circuito C;
+  C.digitar();
+  C.simular();
   /*
   Circuito C;
   string nome;

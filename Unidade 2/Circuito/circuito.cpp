@@ -87,6 +87,7 @@ ostream &Porta::imprimir(ostream &O) const{
 
 
 
+/* FUNÇÕES DE PORTA NOT */
 
 void Porta_NOT::digitar(){
     Nin = 1;
@@ -124,6 +125,10 @@ bool_3S Porta_NOT::simular(const bool_3S in[]){
 
     return saida;
 }
+
+
+
+
 
 /* FUNÇÕES DE PORTA OR */
 
@@ -170,6 +175,10 @@ bool_3S Porta_OR::simular(const bool_3S in[]){
 
     return saida;
 }
+
+
+
+
 
 /* FUNÇÕES DE PORTA AND */
 
@@ -223,6 +232,10 @@ bool_3S Porta_AND::simular(const bool_3S in[]){
 
     return saida;
 }
+
+
+
+
 
 /* FUNÇÕES DE PORTA NAND */
 
@@ -325,6 +338,15 @@ bool_3S Porta_NOR::simular(const bool_3S in[]){
     return saida;
 }
 
+
+
+
+
+
+
+
+
+
 /* FUNÇÕES DE PORTA XOR */
 
 ostream &Porta_XOR::imprimir(ostream &O) const{
@@ -424,6 +446,8 @@ bool_3S Porta_NXOR::simular(const bool_3S in[]){
 
     return saida;
 }
+
+
 
 
 void Circuito::alocar(unsigned NI, unsigned NO, unsigned NP){
@@ -587,4 +611,39 @@ void Circuito::ler(const char *arq){
 
     }
     
+}
+void Circuito::simular(){
+    for (unsigned i = 0; i < Nportas; i++) {
+        portas[i]->setSaida(UNDEF_3S);
+    }
+
+    bool tudo_def, alguma_def;
+    bool_3S in_porta[NUM_MAX_INPUTS_PORTA];
+
+    do {
+        tudo_def = true;
+        alguma_def = false;
+
+        for (unsigned i = 0; i < Nportas; i++) {
+            if (portas[i]->getSaida() == UNDEF_3S) {
+
+                for (unsigned j = 0; j < portas[i]->getNumInputs(); i++) {
+                    if (portas[i]->getId_in(j) < 0)
+                        in_porta[j] = inputs[-1*(portas[i]->getId_in(j))-1];
+
+                    if (portas[i]->getId_in(j) > 0)
+                        in_porta[j] = portas[portas[i]->getId_in(j)-1]->getSaida();
+                }
+
+                portas[i]->simular(in_porta);
+
+                if (portas[i]->getSaida() == UNDEF_3S) {
+                    tudo_def = false;
+                } else {
+                    alguma_def = true;
+                }
+            }
+        }
+
+    } while(!tudo_def && alguma_def);
 }
