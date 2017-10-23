@@ -518,7 +518,7 @@ void Circuito::digitar(){
         portas[cont] -> digitar();
         cont++;
     }
-    while(cont <= Nportas);
+    while(cont < Nportas);
     int ID;
     for(unsigned i=0; i<Nout; i++)
     {
